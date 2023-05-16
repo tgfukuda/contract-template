@@ -1,0 +1,41 @@
+{
+  "name": "foundry-hardhat-template",
+  "version": "1.0.0",
+  "description": "solidity contract template integrated with foundry + hardhat",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "clean": "rm -r out artifacts cache cache_hardhat typechain-types",
+    "build": "forge build --extra-output abi --extra-output-files abi && npx hardhat compile",
+    "test": "forge test -vvv && npx hardhat test",
+    "lint:contracts": "npx solhint 'src/**/*.sol'"
+  },
+  "keywords": [
+    "solidity",
+    "contract",
+    "ethereum",
+    "hardhat"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^1.0.6",
+    "@nomicfoundation/hardhat-foundry": "^1.0.1",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "@typechain/hardhat": "^6.1.6",
+    "hardhat": "^2.14.0",
+    "hardhat-preprocessor": "^0.1.5",
+    "solhint": "^3.4.1",
+    "ts-node": "^10.9.1",
+    "typechain": "^8.1.1",
+    "typescript": "^5.0.4"
+  }
+}
