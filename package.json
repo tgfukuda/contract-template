@@ -1,5 +1,5 @@
 {
-  "name": "foundry-hardhat-template",
+  "name": "contract-template",
   "version": "1.0.0",
   "description": "solidity contract template integrated with foundry + hardhat",
   "main": "index.js",
