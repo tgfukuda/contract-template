@@ -14,6 +14,21 @@ function getRemappings() {
 }
 
 import { HardhatRuntimeEnvironment } from "hardhat/types";
+import getSigner from "./script/hardhat/task/getSigner";
+
+task(
+  'signer',
+  "show signer status gotten from environment",
+  async (arg, hre, runSup) => {
+    const signer = getSigner(hre);
+    if (signer) {
+      console.log(`Address: ${signer.address}`);
+      console.log(`RPC    : ${(signer.provider as InstanceType<typeof hre.ethers.providers.JsonRpcProvider>)['connection'].url}`);
+    } else {
+      console.error(new Error("no signer loaded from environment"));
+    }
+  }
+);
 
 fs.access('./typechain-types', fs.constants.F_OK, (err) => {
   if (!err) {
