@@ -14,7 +14,9 @@
     "test": "forge test -vvv && npx hardhat test",
     "lint": "npm run lint:contracts && npm run lint:js",
     "lint:contracts": "solhint 'src/**/*.sol'",
-    "lint:js": "eslint script/hardhat/"
+    "lint:js": "eslint script/hardhat/",
+    "prettier": "prettier 'script/**/*.ts'",
+    "prettier:fix": "prettier -w 'script/**/*.ts'"
   },
   "keywords": [
     "solidity",
