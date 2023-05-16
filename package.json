@@ -8,10 +8,13 @@
     "test": "test"
   },
   "scripts": {
+    "init": "git submodule update --init --recursive && npm install",
     "clean": "rm -r out artifacts cache cache_hardhat typechain-types",
-    "build": "forge build --extra-output abi --extra-output-files abi && npx hardhat compile",
+    "build": "forge build --extra-output abi --extra-output-files abi && hardhat compile",
     "test": "forge test -vvv && npx hardhat test",
-    "lint:contracts": "npx solhint 'src/**/*.sol'"
+    "lint": "npm run lint:contracts && npm run lint:js",
+    "lint:contracts": "solhint 'src/**/*.sol'",
+    "lint:js": "eslint script/hardhat/"
   },
   "keywords": [
     "solidity",
@@ -31,8 +34,13 @@
     "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
     "@nomiclabs/hardhat-waffle": "^2.0.6",
     "@typechain/hardhat": "^6.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
+    "eslint": "^8.40.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "hardhat": "^2.14.0",
     "hardhat-preprocessor": "^0.1.5",
+    "prettier": "^2.8.8",
     "solhint": "^3.4.1",
     "ts-node": "^10.9.1",
     "typechain": "^8.1.1",
