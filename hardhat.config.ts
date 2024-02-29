@@ -3,6 +3,7 @@ import fs from "fs";
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "hardhat-preprocessor";
+import "@nomiclabs/hardhat-ethers";
 import { HardhatUserConfig, task } from "hardhat/config";
 
 function getRemappings() {
@@ -40,7 +41,7 @@ const DEFAULT_MNEMONIC = 'test test test test test test test test test test test
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.16",
+    version: "0.8.20",
     settings: {
       optimizer: {
         enabled: true,
