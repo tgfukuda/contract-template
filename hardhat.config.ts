@@ -5,6 +5,8 @@ import "@typechain/hardhat";
 import "hardhat-preprocessor";
 import "@nomiclabs/hardhat-ethers";
 import { HardhatUserConfig, task } from "hardhat/config";
+import * as path from 'path';
+import { config as dotenvConf } from "dotenv";
 
 function getRemappings() {
   return fs
@@ -15,18 +17,20 @@ function getRemappings() {
 }
 
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import getSigner from "./script/hardhat/task/getSigner";
 
 task(
   'signer',
   "show signer status gotten from environment",
   async (arg, hre, runSup) => {
-    const signer = getSigner(hre);
-    if (signer) {
-      console.log(`Address: ${signer.address}`);
-      console.log(`RPC    : ${(signer.provider as InstanceType<typeof hre.ethers.providers.JsonRpcProvider>)['connection'].url}`);
+    dotenvConf({ path: path.join(__dirname, ".env") });
+    const signers = await hre.ethers.getSigners();
+    if (signers.length) {
+      for (const signer of signers) {
+        console.log(`ADDRESS: ${signer.address}`);
+        console.log(`RPC ENDPOINT: ${(signer.provider as InstanceType<typeof hre.ethers.providers.JsonRpcProvider>)['connection'].url}`)
+      }
     } else {
-      console.error(new Error("no signer loaded from environment"));
+      console.error(`no signer loaded`);
     }
   }
 );
@@ -39,6 +43,7 @@ fs.access('./typechain-types', fs.constants.F_OK, (err) => {
 
 const DEFAULT_MNEMONIC = 'test test test test test test test test test test test junk';
 
+dotenvConf({ path: path.join(__dirname, ".env") });
 const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.20",
@@ -96,13 +101,12 @@ const config: HardhatUserConfig = {
       },
     },
     localhost: {
-      url: 'http://127.0.0.1:8545',
-      accounts: {
-        mnemonic: process.env.MNEMONIC || DEFAULT_MNEMONIC,
-        path: "m/44'/60'/0'/0",
-        initialIndex: 0,
-        count: 20,
-      },
+      local: {
+        url: process.env['ETH_RPC_URL'] || "http://127.0.0.1:8545",
+        accounts: [
+          process.env['RAW_PRIVATE_KEY'] || "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80", // 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 popular development key
+        ],
+      }
     },
     hardhat: {
       initialDate: '0',
@@ -127,7 +131,6 @@ const config: HardhatUserConfig = {
       mainnet: `${process.env.ETHERSCAN_API_KEY}`
     },
   },
-
   paths: {
     sources: "./src", // Use ./src rather than ./contracts as Hardhat expects
     cache: "./cache_hardhat", // Use a different cache for Hardhat than Foundry
